@@ -1,0 +1,9 @@
+We can go with a folder structure
+
+src - components and pages 
+but for a bigger app it becomes hard to manage like that where folders with couple of subfolders
+
+So we will split logic by features so feature related comps and pages are added
+pages can be names container - bcz there can be lot of state management logic in them
+
+shared folder for general comps not really belong to specific features
