@@ -1,18 +1,23 @@
-import React from "react";
+import React, { use, useEffect } from "react";
 import Card from "../../shared/components/UIElements/Card";
 import PlaceItem from "./PlaceItem";
+import Button from "../../shared/components/FormElements/Button";
 
 const PlaceList = (props) => {
   if (props.items.length === 0) {
     return (
       <Card className="flex justify-center items-center flex-col m-auto h-screen">
         <h2>No places found. Maybe create one?</h2>
-        <button className="bg-blue-500 text-white p-2 rounded-lg">
+        <Button
+          to="/places/new"
+          className="bg-blue-500 text-white p-2 rounded-lg"
+        >
           Share Place
-        </button>
+        </Button>
       </Card>
     );
   }
+
   return (
     <ul className="flex gap-4 m-10 flex-wrap justify-center items-center">
       {props?.items?.map((place) => {
@@ -26,6 +31,7 @@ const PlaceList = (props) => {
             address={place.address}
             creatorId={place.creator}
             coordinates={place.location}
+            deletePlace={props.onDeleteItem}
           />
         );
       })}

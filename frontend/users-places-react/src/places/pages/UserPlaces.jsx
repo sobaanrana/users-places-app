@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PlaceList from "../components/PlaceList";
 import { useParams } from "react-router-dom";
 
 // Dummy data for demonstration
 
-const places = [
+const dummyData = [
   {
     id: "p1",
     title: "Empire State Building",
@@ -49,9 +49,25 @@ const places = [
 const UserPlaces = () => {
   const userId = useParams().userId;
 
-  // Filter places based on the userId
-  const filteredPlaces = places.filter((place) => place.creator === userId);
-  return <PlaceList items={filteredPlaces} />; // Pass an empty array to items prop
+  const [places, setPlaces] = React.useState(dummyData);
+
+  const deletePlace = (placeId) => {
+    debugger;
+    const updatedFilteredPlaces = places.filter(
+      (place) => place.id !== placeId
+    );
+
+    setPlaces(updatedFilteredPlaces);
+  };
+
+  useEffect(() => {
+    // Filter places based on the userId
+    const filteredPlaces = places.filter((place) => place.creator === userId);
+
+    setPlaces(filteredPlaces);
+  }, []);
+
+  return <PlaceList items={places} onDeleteItem={deletePlace} />; // Pass an empty array to items prop
 };
 
 export default UserPlaces;

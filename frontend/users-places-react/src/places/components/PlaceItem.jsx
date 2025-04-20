@@ -1,17 +1,27 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Card from "../../shared/components/UIElements/Card";
 import Button from "../../shared/components/FormElements/Button";
 import Modal from "../../shared/components/UIElements/Modal";
 import Map from "../../shared/components/UIElements/Map";
+import { AuthContext } from "../../shared/context/auth-context";
 
 const PlaceItem = (props) => {
+  const auth = useContext(AuthContext);
   const [showMap, setShowMap] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   const openMapHandler = () => {
     setShowMap(true);
   };
   const closeMapHandler = () => {
     setShowMap(false);
+  };
+
+  const showDeleteWarningHandler = () => {
+    setShowConfirmModal(true);
+  };
+  const cancelDeleteHandler = () => {
+    setShowConfirmModal(false);
   };
   return (
     <React.Fragment>
@@ -25,6 +35,17 @@ const PlaceItem = (props) => {
           </Button>
         }
       >
+        <div className="h-96 w-96">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2243.631924061905!2d-4.327853623119764!3d55.78226428972142!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4888474845a6449d%3A0x2242df9b51c1df28!2sHeat%20It%20up%20Ltd!5e0!3m2!1sen!2suk!4v1744827052162!5m2!1sen!2suk"
+            width="350"
+            height="250"
+            //   style="border:0;"
+            allowFullScreen
+            loading="lazy"
+          />
+        </div>
+
         {/* <div className="h-96 w-96"> */}
         {/* <Map center={props.coordinates} zoom={16} /> */}
         {/* </div> */}
@@ -37,6 +58,24 @@ const PlaceItem = (props) => {
             allowFullScreen
           ></iframe>
         </div> */}
+      </Modal>
+
+      <Modal
+        show={showConfirmModal}
+        onCancel={cancelDeleteHandler}
+        header="Are you sure?"
+        footer={
+          <>
+            <Button className="bg-red-500" onClick={cancelDeleteHandler}>
+              Cancel
+            </Button>
+            <Button className="bg-green-500" onClick={props.onDelete}>
+              Delete
+            </Button>
+          </>
+        }
+      >
+        <p>Do you want to delete this place?</p>
       </Modal>
 
       <li>
@@ -57,10 +96,19 @@ const PlaceItem = (props) => {
             <Button className="bg-green-500" onClick={openMapHandler}>
               View
             </Button>
-            <Button className="bg-blue-500" to={`/places/${props.id}`}>
-              Edit
-            </Button>
-            <Button className="bg-red-500 ">Delete</Button>
+            {auth.isLoggedIn && (
+              <Button className="bg-blue-500" to={`/places/${props.id}`}>
+                Edit
+              </Button>
+            )}
+            {auth.isLoggedIn && (
+              <Button
+                className="bg-red-500 "
+                onClick={showDeleteWarningHandler}
+              >
+                Delete
+              </Button>
+            )}
           </div>
         </Card>
       </li>
