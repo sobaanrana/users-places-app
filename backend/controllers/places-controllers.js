@@ -88,7 +88,7 @@ const createPlace = async (req, res, next) => {
       lat: 40.7484474,
       lng: -73.9871516,
     },
-    image:
+    imageUrl:
       "https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Empire_State_Building_%28aerial_view%29.jpg/400px-Empire_State_Building_%28aerial_view%29.jpg",
     creator,
   });
@@ -185,11 +185,14 @@ const deletePlace = async (req, res, next) => {
   try {
     const sess = await mongoose.startSession();
     sess.startTransaction();
-    await place.remove({ session: sess });
+    // await place.remove({ session: sess });
+    await place.deleteOne({ session: sess });
     place.creator.places.pull(place);
     await place.creator.save({ session: sess });
     await sess.commitTransaction();
   } catch (err) {
+    // console.error("Real backend error during delete:", err); // <-- add this!!
+
     const error = new HttpError(
       "Something went wrong, could not delete place.",
       500

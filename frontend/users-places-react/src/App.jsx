@@ -12,12 +12,15 @@ import { useCallback, useState } from "react";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userId, setUserId] = useState(false);
 
-  const login = useCallback(() => {
+  const login = useCallback((uid) => {
     setIsLoggedIn(true);
+    setUserId(uid);
   }, []);
   const logout = useCallback(() => {
     setIsLoggedIn(false);
+    setUserId(null);
   }, []);
 
   // let routes;
@@ -30,9 +33,15 @@ function App() {
   // else {
   // }
 
+  console.log(userId);
   return (
     <AuthContext.Provider
-      value={{ isLoggedIn: isLoggedIn, login: login, logout: logout }}
+      value={{
+        isLoggedIn: isLoggedIn,
+        userId: userId,
+        login: login,
+        logout: logout,
+      }}
     >
       <BrowserRouter>
         <MainNavigation />
@@ -43,6 +52,7 @@ function App() {
           <Route path="/places/new" element={<NewPlace />} />
           <Route path="/:userId/places" exact element={<UserPlaces />} />
           <Route path="/auth" exact element={<Auth />} />
+          <Route path="/places/:placeId" element={<UpdatePlace />} />
           {/* <Redirect to="/" /> */}
           <Route path="*" element={<Navigate to="/" />} />
           {/* Redirects any undefined route to home */}

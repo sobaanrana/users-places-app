@@ -1,4 +1,4 @@
-import React, { use, useEffect } from "react";
+import React from "react";
 import Card from "../../shared/components/UIElements/Card";
 import PlaceItem from "./PlaceItem";
 import Button from "../../shared/components/FormElements/Button";
@@ -31,7 +31,7 @@ const PlaceList = (props) => {
             address={place.address}
             creatorId={place.creator}
             coordinates={place.location}
-            deletePlace={props.onDeleteItem}
+            onDelete={props.onDeletePlace}
           />
         );
       })}
