@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const path = require("path");
 
 const placesRoutes = require("./routes/places-routes");
 const usersRoutes = require("./routes/users-routes");
@@ -9,6 +10,9 @@ const { default: mongoose } = require("mongoose");
 const app = express();
 
 app.use(bodyParser.json());
+
+// app.use('/uploads/images', express.static('uploads/images')); // for serving images
+app.use("/uploads/images", express.static(path.join("uploads", "images"))); // for serving images
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");

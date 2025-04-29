@@ -8,7 +8,10 @@ const UserItem = (props) => {
     <li>
       <Card className="bg-stone-300 w-[200px] p-4 rounded-2xl">
         <Link to={`/${props.id}/places`}>
-          <Avatar image={props.image} alt={props.name} />
+          <Avatar
+            image={`http://localhost:4000/${props.image}`}
+            alt={props.name}
+          />
           <h2 className="font-semibold">{props.name}</h2>
           <h3>
             {props.placeCount} {props.placeCount > 0 ? "places" : "place"}

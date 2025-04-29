@@ -7,3 +7,8 @@ So we will split logic by features so feature related comps and pages are added
 pages can be names container - bcz there can be lot of state management logic in them
 
 shared folder for general comps not really belong to specific features
+
+
+
+
+disable auth butyton until required fields are fixed
